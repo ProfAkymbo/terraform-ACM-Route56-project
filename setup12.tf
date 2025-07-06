@@ -1,7 +1,7 @@
 # Reference existing Route 53 Hosted Zone
 data "aws_route53_zone" "main" {
-#resource "aws_route53_zone" "main" {
-  name = "cecurepractice.link"
+#resource "aws_route53_zone" "main" {  # uncomment if this is not already existing to create it
+  name = "practice.link"
 }
 
 # Configures a provider alias required for certificates used with ALB.
@@ -13,7 +13,7 @@ provider "aws" {
 # Requests anSSL certificate for the domain using DNS validation.
 resource "aws_acm_certificate" "cert" {
   provider          = aws.us_east_1
-  domain_name       = "ak.cecurepractice.link"
+  domain_name       = "ak.practice.link"
   validation_method = "DNS"
 
   tags = {
@@ -58,7 +58,7 @@ resource "aws_lb_listener" "https" {
 resource "aws_route53_record" "app_alias" {
   #zone_id = aws_route53_zone.main.zone_id
   zone_id = data.aws_route53_zone.main.zone_id
-  name    = "ak.cecurepractice.link"
+  name    = "ak.practice.link"
   type    = "A"
 
   alias {
